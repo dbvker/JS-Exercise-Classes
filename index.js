@@ -92,7 +92,7 @@ class Car {
     this.odometer += distance;
     this.tank -= (distance / this.milesPerGallon);
     if ( this.tank <= 0){
-      return `I ran out of fuel at ${this.odometer} miles!`
+      return `I ran out of fuel at ${this.odometer - 1} miles!`
     }
   }
 }
@@ -244,7 +244,15 @@ class ProjectManager extends Instructor{
    debugsCode(student, subject){
     return `${this.name} debugs ${student}'s code on ${subject}`
    }
-}
+} 
+
+const tarin = new ProjectManager({
+  gradClassName: 'CS1',
+  favInstructor: 'Sean',
+})
+
+console.log(tarin);
+
 /*
   STRETCH PROBLEM (no tests!)
     - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
