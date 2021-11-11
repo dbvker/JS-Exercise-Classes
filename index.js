@@ -60,9 +60,9 @@ class Person {
   }
 }
 
-const mary = new Person('Mary',50,);
+const mary = new Person('Mary',50);
 
-console.log('Task 1:', mary);
+console.log('Task 1:', mary.toString());
 
 /*
   TASK 2
@@ -89,11 +89,17 @@ class Car {
     this.tank += gallons;
   }
   drive(distance){
-    this.odometer += distance;
-    this.tank -= (distance / this.milesPerGallon);
-    if ( this.tank <= 0){
-      return `I ran out of fuel at ${this.odometer - 1} miles!`
+    const driveableMiles = this.tank * this.milesPerGallon;
+    if(distance <= driveableMiles){
+      this.odometer = this.odometer + distance;
+      this.tank = this.tank - (distance / this.milesPerGallon);
+    } else {
+      this.odometer = this.odometer + driveableMiles;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`;
     }
+
+
   }
 }
 
@@ -116,10 +122,10 @@ console.log('Task 2:', lambo.drive(200));
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-  constructor(obj){
-    this.name = obj.name;
-    this.age = obj.age;
-    this.location = obj.location;
+  constructor({name, age, location}){
+    this.name = name;
+    this.age = age;
+    this.location = location;
   }
   speak(){
     return `Hello my name is ${this.name}, I am from ${this.location}`;
@@ -149,24 +155,24 @@ console.log('Task 3:', dylan.speak());
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 class Instructor extends Lambdasian{
-  constructor(obj){
-    super(obj);
-    this.specialty = obj.specialty;
-    this.favLanguage = obj.favLanguage;
-    this.catchPhrase = obj.catchPhrase;
+  constructor({name, age, location, specialty, favLanguage, catchPhrase}){
+    super({name, age, location});
+    this.specialty = specialty;
+    this.favLanguage = favLanguage;
+    this.catchPhrase = catchPhrase;
   }
   demo(subject){
-    this.subject = subject;
-    return `Today we are learning about ${this.subject}`;
+    return `Today we are learning about ${subject}`;
   }
   grade(student, subject){
-    this.student = student;
-    this.subject = subject;
-    return `${this.student} receives a perfect score on ${this.subject}`;
+    return `${student.name} receives a perfect score on ${subject}`;
   }
 }
 
 const alex = new Instructor({
+  name: 'Alex',
+  age: 25,
+  location :'Kansas City',
   specialty: 'math',
   favLanguage: 'English',
   catchPhrase: 'Don\'t forget the homies',
@@ -190,11 +196,11 @@ console.log('Task 4:', alex.grade('Sean', 'science'));
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
 class Student extends Lambdasian{
-  constructor(obj){
-    super(obj);
-    this.previousBackground = obj.previousBackground;
-    this.className = obj.className;
-    this.favSubjects = obj.favSubjects;
+  constructor({name, age, location, previousBackground, className, favSubjects}){
+    super({name, age, location});
+    this.previousBackground = previousBackground;
+    this.className = className;
+    this.favSubjects = favSubjects;
   }
   listSubjects(){
     return `Loving ${this.favSubjects}`;
@@ -233,25 +239,31 @@ console.log('Task 5:', bob.listSubjects());
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 class ProjectManager extends Instructor{
-  constructor(obj){
-    super(obj);
-    this.gradClassName = obj.gradClassName;
-    this.favInstructor = obj.favInstructor;
+  constructor({name, age, location, specialty, favLanguage, catchPhrase, gradClassName, favInstructor}){
+    super({name, age, location, specialty, favLanguage, catchPhrase});
+    this.gradClassName = gradClassName;
+    this.favInstructor = favInstructor;
   }
    standUp(channel){
     return `${this.name} announces to ${channel}, @channel standy times!`;
    }
    debugsCode(student, subject){
-    return `${this.name} debugs ${student}'s code on ${subject}`
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
    }
 } 
 
 const tarin = new ProjectManager({
+  name: 'Tarin',
+  age: 23,
+  location :'Wichita',
+  specialty: null,
+  favLanguage: 'English',
+  catchPhrase: null,
   gradClassName: 'CS1',
   favInstructor: 'Sean',
 })
 
-console.log(tarin);
+console.log('Task 6:', tarin.debugsCode('robert', 'computer science'));
 
 /*
   STRETCH PROBLEM (no tests!)
